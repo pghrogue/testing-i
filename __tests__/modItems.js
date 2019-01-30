@@ -1,8 +1,19 @@
 const modItem = require('../modItems');
 
 // Some default items to test with:
-const weapon = {};
-const armor = {};
+const weapon = {
+  name: 'Elven Longsword',
+  type: 'weapon',
+  durability: 70,
+  enhancement: 0
+};
+
+const armor = {
+  name: 'Bronze Chestplate',
+  type: 'armor',
+  durability: 100,
+  enhancement: 0
+};
 
 // Test weapon specific:
 describe('weapon enhancements:', () => {
@@ -11,7 +22,7 @@ describe('weapon enhancements:', () => {
   test('fail', () => {});
 
   test('repair', () => {
-    
+    expect( modItem.repair(weapon.durability)).toEqual(100);
   });
 });
 
@@ -21,5 +32,7 @@ describe('armor enhancements', () => {
 
   test('fail', () => {});
 
-  test('repair', () => {});
+  test('repair', () => {
+    expect( modItem.repair(armor.durability)).toEqual(100);
+  });
 });

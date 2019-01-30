@@ -10,5 +10,7 @@ module.exports = {
 
   // Repair(item) method accepts an item object and returns a new item object with
   // durability restored to 100.
-  repair: (item) => {}
+  repair: (item) => {
+    return item.durability = 100;
+  }
 };
