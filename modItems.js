@@ -3,14 +3,21 @@ module.exports = {
   // Success(item) method accepts an item object and returns a new item object modified
   // according to the rules defined.
   success: (item) => {
+
+    // Setup new item:
     const newItem = {
       ...item
     };
   
-    // Raise enhancement level. 0-14 go up one digit.
-    if( Number(item.enhancement) >= 1 || Number(item.enhancement) < 15 ) {
-      newItem.enhancement = "+" + (Number(item.enhancement) + 1 );
-    }
+    // Raise enhancement level. 
+    const oldLevel = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13',
+      '14','15','PRI','DUO','TRI','TET','PEN'];
+    const newLevel = ['1','2','3','4','5','6','7','8','9','10','11','12','13',
+    '14','15','PRI','DUO','TRI','TET','PEN','PEN'];
+
+    const levelPos = oldLevel.indexOf( item.enhancement );
+    newItem.enhancement = newLevel[levelPos];
+    console.log(newItem);
     return newItem;
   },
 

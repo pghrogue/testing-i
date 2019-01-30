@@ -5,7 +5,7 @@ const weapon = {
   name: 'Elven Longsword',
   type: 'weapon',
   durability: 70,
-  enhancement: '+0'
+  enhancement: 'PRI'
 };
 
 const armor = {
@@ -24,7 +24,11 @@ describe('enhancements:', () => {
     test('enhancement level > 0', () => {
       // Item starts at level 0, it should always be higher:
       const testItem = modItem.success(weapon);
-      expect( Number(testItem.enhancement) ).toBeGreaterThan(0);
+      if( !Number.isNaN(testItem.enhancement) ){
+        expect( Number(testItem.enhancement) ).not.toBeLessThanOrEqual(0);
+      } else {
+        expect( testItem.enhancement ).toBeNaN();
+      }
     });
 
     test('enhancement level in range', () => {
@@ -32,8 +36,10 @@ describe('enhancements:', () => {
       const testItem = modItem.success(weapon);
       const range = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13',
                     '14','15','PRI','DUO','TRI','TET','PEN'];
-      expect( range ).toContain( Number(testItem.enhancement).toString() );
+      expect( range ).toContain( testItem.enhancement );
     });
+
+    test('name should contain enhancement level', () => {});
 
 
   });
