@@ -19,11 +19,12 @@ const armor = {
 describe('enhancements:', () => {
 
   describe('success:', () => {
-    
+    // Set this here once. This allows us to test specific values. Ie: testItem.name
+    const testItem = modItem.success(weapon);
 
     test('enhancement level > 0', () => {
       // Item starts at level 0, it should always be higher:
-      const testItem = modItem.success(weapon);
+      //const testItem = modItem.success(weapon);
       if( !Number.isNaN(testItem.enhancement) ){
         expect( Number(testItem.enhancement) ).not.toBeLessThanOrEqual(0);
       } else {
@@ -33,13 +34,16 @@ describe('enhancements:', () => {
 
     test('enhancement level in range', () => {
       // Enhancement level should be 0-15, PRI, DUO, TRI, TET, or PEN
-      const testItem = modItem.success(weapon);
+      //const testItem = modItem.success(weapon);
       const range = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13',
                     '14','15','PRI','DUO','TRI','TET','PEN'];
       expect( range ).toContain( testItem.enhancement );
     });
 
-    test('name should contain enhancement level', () => {});
+    test('name should contain enhancement level', () => {
+      // Name should be in the format of: [+1] Elven Longsword
+      // expectedName = `[${ Number.isNaN(testItem.enhancement) ? '' : '+' }${testItem.enhancement}] ${testItem.name}`
+    });
 
 
   });
