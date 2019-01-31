@@ -15,7 +15,6 @@ const armor = {
   enhancement: '10'
 };
 
-// Test weapon specific:
 describe('enhancements:', () => {
 
   describe('success:', () => {
@@ -51,29 +50,35 @@ describe('enhancements:', () => {
 
   describe('fail:', () => {
     // Set this here once. This allows us to test specific values. Ie: testItem.name
-    const testItem = modItem.success(weapon);
-
-    test('enhancement level >= 5 for armor or >= 7 for weapon', () => {
-      if( testItem.type === "armor" && !isNaN(testItem.enhancement) ) {
+  
+    const testItem = modItem.fail(weapon);
+    console.log("testcase:", weapon);
+    test('fail does not work if enhancement level is too low', () => {
+      const lvl = weapon.enhancement;
+      if( testItem.type === "armor" && !isNaN(testItem.enhancement) && Number(testCase.enhancement) <= 5) {
         // Enhacing an armor up to 5 cannot fail.
-        expect( Number(testItem.enhancement) ).toBeGreaterThanOrEqual(5);
-      } else if( testItem.type === "weapon" && !isNaN(testItem.enhancement) ) {
+        expect( () => {
+          modItem.fail(testCase);
+        }).toThrow();
+
+      } else if( testItem.type === "weapon" && !isNaN(testItem.enhancement) && Number(testCase.enhancement) <= 7) {
         // Enhacing a weapon up to 7 cannot fail.
-        expect( Number(testItem.enhancement) ).toBeGreaterThanOrEqual(7);
-      } else {
-        // NaN found.
-        expect( Number(testItem.enhancement) ).toBeNaN();
-      }
+        expect( () => {
+          modItem.fail(testCase);
+        }).toThrow();
+      } 
     });
 
   });
 
-  test('repair', () => {
-    // Item durability should always be set to 100 after repair.
-    const testItem = {
-      ...weapon,
-      durability: 100
-    };
-    expect( modItem.repair(weapon)).toEqual(testItem);
+  describe('repair:', () => {
+    test('durability should always be 100', () => {
+      // Item durability should always be set to 100 after repair.
+      const testItem = {
+        ...weapon,
+        durability: 100
+      };
+      expect( modItem.repair(weapon)).toEqual(testItem);
+    });  
   });
 });
