@@ -12,7 +12,7 @@ const armor = {
   name: 'Bronze Chestplate',
   type: 'armor',
   durability: 100,
-  enhancement: '0'
+  enhancement: '10'
 };
 
 // Test weapon specific:
@@ -49,7 +49,24 @@ describe('enhancements:', () => {
 
   });
 
-  test('fail', () => {});
+  describe('fail:', () => {
+    // Set this here once. This allows us to test specific values. Ie: testItem.name
+    const testItem = modItem.success(weapon);
+
+    test('enhancement level >= 5 for armor or >= 7 for weapon', () => {
+      if( testItem.type === "armor" && !isNaN(testItem.enhancement) ) {
+        // Enhacing an armor up to 5 cannot fail.
+        expect( Number(testItem.enhancement) ).toBeGreaterThanOrEqual(5);
+      } else if( testItem.type === "weapon" && !isNaN(testItem.enhancement) ) {
+        // Enhacing a weapon up to 7 cannot fail.
+        expect( Number(testItem.enhancement) ).toBeGreaterThanOrEqual(7);
+      } else {
+        // NaN found.
+        expect( Number(testItem.enhancement) ).toBeNaN();
+      }
+    });
+
+  });
 
   test('repair', () => {
     // Item durability should always be set to 100 after repair.
