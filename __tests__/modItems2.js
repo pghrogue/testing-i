@@ -83,6 +83,9 @@ describe('enhancements', () => {
       expect( testItem.enhancement ).toBe( lvlStr[lvlNum.indexOf(lvl + 1)] );
     });
     // The name is updated to reflect the new enhancement level.
+    test('name should have changed', () => {
+      expect( testItem.name ).not.toBe( compItem.name );
+    });
   });
 
   // fail?
