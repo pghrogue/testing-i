@@ -12,12 +12,16 @@ const armor = {
   name: 'Bronze Chestplate',
   type: 'armor',
   durability: 100,
-  enhancement: '3'
+  enhancement: 'DUO'
 };
 
 describe('enhancements', () => {
   // Set this here once. This allows us to test specific values. Ie: testItem.name
   const testItem = modItem.success(armor);
+  const compItem = armor;
+  const lvlStr = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','PRI','DUO','TRI','TET','PEN'];
+  const lvlNum = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  const lvl = lvlNum[lvlStr.indexOf(compItem.enhancement)];
 
   // can enhance?
   describe('can enhance:', () => {
@@ -39,21 +43,18 @@ describe('enhancements', () => {
     // If the item's enhancement is 14 or lower, the item cannot be enhanced if the durability is below 25.
     // If the item's enhancement is 15 or higher, the item cannot be enhanced if the durability is below 10.
     test('(enh <= 14 and dur < 25) or (enh >= 15 and dur < 10)', () => {
-      const lvlStr = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','PRI','DUO','TRI','TET','PEN'];
-      const lvlNum = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-      const lvl = lvlNum[lvlStr.indexOf(weapon.enhancement)];
 
-      if( lvl <= 14 && weapon.durability < 25 ) {
+      if( lvl <= 14 && compItem.durability < 25 ) {
         console.log("1 falsy");
-        expect(modItem.canEnhance(weapon)).toBeFalsy();
+        expect(modItem.canEnhance(compItem)).toBeFalsy();
       } 
-      else if( lvl >= 15 && weapon.durability < 10 ) {
+      else if( lvl >= 15 && compItem.durability < 10 ) {
         console.log("2 falsy");
-        expect(modItem.canEnhance(weapon)).toBeFalsy();
+        expect(modItem.canEnhance(compItem)).toBeFalsy();
       }
       else {
         console.log("not falsy");
-        expect(modItem.canEnhance(weapon)).not.toBeFalsy();
+        expect(modItem.canEnhance(compItem)).not.toBeFalsy();
       }
     });
 
@@ -65,20 +66,23 @@ describe('enhancements', () => {
     // Enhancement level of 0 is not displayed.
     test('name should contain enhancement level', () => {
       // Name should be in the format of: [+1] Elven Longsword
-      const expectedName = `[${ isNaN(weapon.enhancement) ? '' : '+' }${weapon.enhancement}]`;
+      const expectedName = `[${ isNaN(compItem.enhancement) ? '' : '+' }${compItem.enhancement}]`;
       if( testItem.enhancement !== '0' ){
-        expect( modItem.changeName(weapon.name, weapon.enhancement) ).toContain(expectedName);
+        expect( modItem.changeName(compItem.name, compItem.enhancement) ).toContain(expectedName);
       } else {
-        expect( modItem.changeName(weapon.name, weapon.enhancement) ).not.toContain(expectedName);
+        expect( modItem.changeName(compItem.name, compItem.enhancement) ).not.toContain(expectedName);
       }
     });
   });
 
   // pass?
   describe('success:', () => {
-  //   The item's enhancement increases by 1.
-  //   The maximum enhancement possible is PEN.
-  //   The name is updated to reflect the new enhancement level.
+    // The item's enhancement increases by 1.
+    // The maximum enhancement possible is PEN.
+    test('level should go up 1 to max of PEN', () => {
+      expect( testItem.enhancement ).toBe( lvlStr[lvlNum.indexOf(lvl + 1)] );
+    });
+    // The name is updated to reflect the new enhancement level.
   });
 
   // fail?

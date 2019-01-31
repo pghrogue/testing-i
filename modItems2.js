@@ -32,10 +32,20 @@ module.exports = {
 
   // pass?
   success: (item) => {
-  //   The item's enhancement increases by 1.
-  //   The maximum enhancement possible is PEN.
-  //   The name is updated to reflect the new enhancement level.
-    return item;
+    // Setup new item:
+    const newItem = {
+      ...item
+    };
+
+    // The item's enhancement increases by 1.
+    // The maximum enhancement possible is PEN.
+    const oldLevel = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','PRI','DUO','TRI','TET','PEN'];
+    const newLevel = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','PRI','DUO','TRI','TET','PEN','PEN'];
+
+    const levelPos = oldLevel.indexOf( item.enhancement );
+    newItem.enhancement = newLevel[levelPos];
+    // The name is updated to reflect the new enhancement level.
+    return newItem;
   },
 
 
