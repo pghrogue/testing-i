@@ -5,14 +5,14 @@ const weapon = {
   name: 'Elven Longsword',
   type: 'weapon',
   durability: 70,
-  enhancement: 'PRI'
+  enhancement: 'PEN'
 };
 
 const armor = {
   name: 'Bronze Chestplate',
   type: 'armor',
   durability: 100,
-  enhancement: '10'
+  enhancement: '3'
 };
 
 describe('enhancements:', () => {
@@ -52,21 +52,27 @@ describe('enhancements:', () => {
     // Set this here once. This allows us to test specific values. Ie: testItem.name
   
     const testItem = modItem.fail(weapon);
-    console.log("testcase:", weapon);
-    test('fail does not work if enhancement level is too low', () => {
-      const lvl = weapon.enhancement;
-      if( testItem.type === "armor" && !isNaN(testItem.enhancement) && Number(testCase.enhancement) <= 5) {
-        // Enhacing an armor up to 5 cannot fail.
-        expect( () => {
-          modItem.fail(testCase);
-        }).toThrow();
 
-      } else if( testItem.type === "weapon" && !isNaN(testItem.enhancement) && Number(testCase.enhancement) <= 7) {
-        // Enhacing a weapon up to 7 cannot fail.
-        expect( () => {
-          modItem.fail(testCase);
-        }).toThrow();
-      } 
+    // test('fail does not work if enhancement level is too low', () => {
+    //   const lvl = weapon.enhancement;
+    //   if( testItem.type === "armor" && !isNaN(testItem.enhancement) && Number(testItem.enhancement) <= 5) {
+    //     // Enhacing an armor up to 5 cannot fail.
+    //     expect( () => {
+    //       modItem.fail(weapon);
+    //     }).toThrow('invalid armor level');
+
+    //   } else if( testItem.type === "weapon" && !isNaN(testItem.enhancement) && Number(testItem.enhancement) <= 7) {
+    //     // Enhacing a weapon up to 7 cannot fail.
+    //     expect( () => {
+    //       modItem.fail(weapon);
+    //     }).toThrow('invalid weapon level');
+    //   } 
+    // });
+
+    test('enhancement level cannot be less than 0', () => {
+      if( !isNaN(testItem.enhancement) ) {
+        expect( Number(testItem.enhancement) ).toBeGreaterThanOrEqual(0);
+      }
     });
 
   });
