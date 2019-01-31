@@ -11,8 +11,8 @@ const weapon = {
 const armor = {
   name: 'Bronze Chestplate',
   type: 'armor',
-  durability: 100,
-  enhancement: 'DUO'
+  durability: 24,
+  enhancement: '13'
 };
 
 describe('enhancements', () => {
@@ -25,7 +25,6 @@ describe('enhancements', () => {
 
   // can enhance?
   describe('can enhance:', () => {
-    const testItem = modItem.canEnhance(armor);
 
     // Items have name, type, durability and enhancement.
     test('item has the right properties', () => {
@@ -77,11 +76,19 @@ describe('enhancements', () => {
 
   // pass?
   describe('success:', () => {
+    // Receives error thrown if can't be enhanced
+    test('error thrown if item does not meet requirements', () => {
+      expect( () => {
+        modItem.success(compItem);
+      }).toThrow();
+    });
+
     // The item's enhancement increases by 1.
     // The maximum enhancement possible is PEN.
     test('level should go up 1 to max of PEN', () => {
       expect( testItem.enhancement ).toBe( lvlStr[lvlNum.indexOf(lvl + 1)] );
     });
+
     // The name is updated to reflect the new enhancement level.
     test('name should have changed', () => {
       expect( testItem.name ).not.toBe( compItem.name );
