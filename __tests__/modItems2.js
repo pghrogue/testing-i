@@ -4,8 +4,8 @@ const modItem = require('../modItems2');
 const weapon = {
   name: 'Elven Longsword',
   type: 'weapon',
-  durability: 11,
-  enhancement: '15'
+  durability: 9,
+  enhancement: 'PEN'
 };
 
 const armor = {
@@ -39,11 +39,15 @@ describe('enhancements', () => {
     // If the item's enhancement is 14 or lower, the item cannot be enhanced if the durability is below 25.
     // If the item's enhancement is 15 or higher, the item cannot be enhanced if the durability is below 10.
     test('(enh <= 14 and dur < 25) or (enh >= 15 and dur < 10)', () => {
-      if( weapon.enhancement <= 14 && weapon.durability < 25 ) {
+      const lvlStr = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','PRI','DUO','TRI','TET','PEN'];
+      const lvlNum = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+      const lvl = lvlNum[lvlStr.indexOf(weapon.enhancement)];
+
+      if( lvl <= 14 && weapon.durability < 25 ) {
         console.log("1 falsy");
         expect(modItem.canEnhance(weapon)).toBeFalsy();
       } 
-      else if( weapon.enhancement >= 15 && weapon.durability < 10 ) {
+      else if( lvl >= 15 && weapon.durability < 10 ) {
         console.log("2 falsy");
         expect(modItem.canEnhance(weapon)).toBeFalsy();
       }
@@ -57,8 +61,17 @@ describe('enhancements', () => {
 
   // change name?
   describe('change name:', () => {
-  //   Enhancement level is displayed as a string with a plus sign ( + ) before the number for levels 1 to 15.
-  //   Enhancement level of 0 is not displayed.
+    // Enhancement level is displayed as a string with a plus sign ( + ) before the number for levels 1 to 15.
+    // Enhancement level of 0 is not displayed.
+    test('name should contain enhancement level', () => {
+      // Name should be in the format of: [+1] Elven Longsword
+      const expectedName = `[${ isNaN(weapon.enhancement) ? '' : '+' }${weapon.enhancement}]`;
+      if( testItem.enhancement !== '0' ){
+        expect( modItem.changeName(weapon.name, weapon.enhancement) ).toContain(expectedName);
+      } else {
+        expect( modItem.changeName(weapon.name, weapon.enhancement) ).not.toContain(expectedName);
+      }
+    });
   });
 
   // pass?
