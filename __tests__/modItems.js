@@ -12,7 +12,7 @@ const armor = {
   name: 'Bronze Chestplate',
   type: 'armor',
   durability: 100,
-  enhancement: ''
+  enhancement: '0'
 };
 
 // Test weapon specific:
@@ -20,7 +20,7 @@ describe('enhancements:', () => {
 
   describe('success:', () => {
     // Set this here once. This allows us to test specific values. Ie: testItem.name
-    const testItem = modItem.success(weapon);
+    const testItem = modItem.success(armor);
 
     test('enhancement level > 0', () => {
       // Item starts at level 0, it should always be higher:
@@ -42,7 +42,8 @@ describe('enhancements:', () => {
 
     test('name should contain enhancement level', () => {
       // Name should be in the format of: [+1] Elven Longsword
-      // expectedName = `[${ Number.isNaN(testItem.enhancement) ? '' : '+' }${testItem.enhancement}] ${testItem.name}`
+      expectedName = `[${ isNaN(testItem.enhancement) ? '' : '+' }${testItem.enhancement}]`;
+      expect( testItem.name ).toContain(expectedName);
     });
 
 
