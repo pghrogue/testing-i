@@ -13,10 +13,16 @@ module.exports = {
     const oldLevel = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13',
       '14','15','PRI','DUO','TRI','TET','PEN'];
     const newLevel = ['1','2','3','4','5','6','7','8','9','10','11','12','13',
-    '14','15','PRI','DUO','TRI','TET','PEN','PEN'];
+      '14','15','PRI','DUO','TRI','TET','PEN','PEN'];
 
     const levelPos = oldLevel.indexOf( item.enhancement );
     newItem.enhancement = newLevel[levelPos];
+
+    // Add enhancement level to name, stripping old if needed.
+    const name = item.name.split("] ");
+    
+    newItem.name = `[${ isNaN(newItem.enhancement) ? '' : '+' }${newItem.enhancement}] ${name}`;
+    
     console.log(newItem);
     return newItem;
   },
